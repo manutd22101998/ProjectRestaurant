@@ -17,7 +17,7 @@ public class ListTable extends JPanel{
 
     public ListTable() {
         this.setBackground(Color.white);
-        this.setBounds(320, 30, 1000, 520);
+        this.setBounds(320, 130, 1100, 500);
         this.setBorder(BorderFactory.createLineBorder(Color.black));
     }
     
