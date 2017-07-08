@@ -6,11 +6,17 @@
 package console.restaurant.View;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import static java.lang.Thread.sleep;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -20,6 +26,9 @@ import javax.swing.JPanel;
 public class PanelManager extends JFrame {
 
 //    private JPanel panelShow;
+    private JLabel lblHeader;
+    private JLabel lblDate;
+    private JLabel lblTime;
     private JButton btnManagerOrder;
     private JButton btnManagerAdmin;
     private JButton btnManagerFood;
@@ -35,8 +44,14 @@ public class PanelManager extends JFrame {
     private ManagerStatistic quanlythongke = new ManagerStatistic();
 
     public PanelManager() {
-        setSize(1400, 700);
+        setSize(1500, 800);
 //      
+        this.lblHeader = new JLabel("Nahut Drinks & Foods");
+        this.lblHeader.setFont(new Font("Serif", Font.PLAIN, 60));
+        this.lblDate = new JLabel();
+        this.lblDate.setFont(new Font("Serif", Font.PLAIN, 24));
+        this.lblTime = new JLabel();
+        this.lblTime.setFont(new Font("Serif", Font.PLAIN, 24));
         this.btnManagerOrder = new JButton("Đặt bàn");
         this.btnManagerAdmin = new JButton("Quản lý tài khoản");
         this.btnManagerTable = new JButton("Quản lý bàn");
@@ -53,15 +68,21 @@ public class PanelManager extends JFrame {
         this.btnExit.setBackground(Color.white);
         this.btnLogin.setBackground(Color.white);
 
-        this.btnManagerOrder.setBounds(50, 30, 200, 80);
-        this.btnManagerAdmin.setBounds(50, 140, 200, 80);
-        this.btnManagerTable.setBounds(50, 360, 200, 80);
-        this.btnManagerFood.setBounds(50, 250, 200, 80);
-        this.btnManagerStatistic.setBounds(50, 470, 200, 80);
-        this.btnLogin.setBounds(1040, 600, 130, 50);
-        this.btnExit.setBounds(1200, 600, 130, 50);
+        this.lblHeader.setBounds(550, 30, 700, 50);
+        this.lblDate.setBounds(1150, 10, 300, 50);
+        this.lblTime.setBounds(1250, 50, 200, 50);
+        this.btnManagerOrder.setBounds(50, 70, 200, 100);
+        this.btnManagerAdmin.setBounds(50, 200, 200, 100);
+        this.btnManagerTable.setBounds(50, 320, 200, 100);
+        this.btnManagerFood.setBounds(50, 440, 200, 100);
+        this.btnManagerStatistic.setBounds(50, 560, 200, 100);
+        this.btnLogin.setBounds(1150, 680, 130, 50);
+        this.btnExit.setBounds(1300, 680, 130, 50);
 
 //        this.add(this.panelShow);
+        this.add(this.lblHeader);
+        this.add(this.lblDate);
+        this.add(this.lblTime);
         this.add(this.btnManagerOrder);
         this.add(this.btnManagerAdmin);
         this.add(this.btnManagerTable);
@@ -84,9 +105,10 @@ public class PanelManager extends JFrame {
         quanlymonan.setVisible(false);
         quanlythongke.setVisible(false);
 
+        clockBan();
         this.setLayout(null);
         this.setLocationRelativeTo(null);
-        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         this.btnManagerOrder.addActionListener(new ActionListener() {
             @Override
@@ -184,6 +206,30 @@ public class PanelManager extends JFrame {
                 System.exit(0);
             }
         });
+    }
+
+    public void clockBan() {
+        Thread clock = new Thread() {
+            public void run() {
+                Date today = new Date();
+                try {
+                    for (;;) {
+                        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                        DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+                        Date date1 = new Date();
+//                      
+                        lblDate.setText("Hôm nay ngày: " + dateFormat.format(date1));
+                        lblTime.setText(timeFormat.format(date1));
+//                        TimeZone.setDefault(TimeZone.getTimeZone("UTC+7"));
+                        sleep(1000);
+                    }
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        };
+        clock.start();
+
     }
 
     public static void main(String[] args) {

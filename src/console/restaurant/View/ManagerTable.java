@@ -12,7 +12,10 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -24,6 +27,10 @@ public class ManagerTable extends JPanel {
     private JTextField txtSearch;
     private JButton btnCreate;
 
+    private JTable table;
+    private DefaultTableModel modelTable;
+    private JScrollPane scrollPane;
+
     private JButton btnFirst;
     private JButton btnPrevious;
     private JButton btnPage;
@@ -33,13 +40,9 @@ public class ManagerTable extends JPanel {
     private int page = 1;
 
     public ManagerTable() {
-        this.setBackground(Color.GREEN);
-        this.setBounds(320, 30, 1000, 520);
+        this.setBackground(Color.white);
+        this.setBounds(320, 130, 1100, 530);
         this.setBorder(BorderFactory.createLineBorder(Color.black));
-
-        this.setBackground(new Color(250, 250, 250));
-        this.setBounds(320, 30, 1000, 520);
-        this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         this.lblSearch = new JLabel("Nhập tên bàn : ");
         this.txtSearch = new JTextField();
@@ -51,18 +54,31 @@ public class ManagerTable extends JPanel {
         this.btnNext = new JButton(">");
         this.btnLast = new JButton(">>");
 
-        this.lblSearch.setBounds(50, 25, 200, 50);
-        this.txtSearch.setBounds(150, 30, 150, 35);
-        this.btnCreate.setBounds(850, 30, 120, 35);
+        this.lblSearch.setBounds(50, 20, 200, 50);
+        this.txtSearch.setBounds(150, 25, 150, 35);
+        this.btnCreate.setBounds(900, 25, 120, 35);
 //        setBounds Button phân trang
-        this.btnFirst.setBounds(340, 450, 50, 35);
-        this.btnPrevious.setBounds(410, 450, 50, 35);
-        this.btnPage.setBounds(480, 450, 50, 35);
-        this.btnNext.setBounds(550, 450, 50, 35);
-        this.btnLast.setBounds(620, 450, 50, 35);
-
+        this.btnFirst.setBounds(390, 475, 50, 35);
+        this.btnPrevious.setBounds(460, 475, 50, 35);
+        this.btnPage.setBounds(530, 475, 50, 35);
+        this.btnNext.setBounds(600, 475, 50, 35);
+        this.btnLast.setBounds(670, 475, 50, 35);
         this.btnCreate.setBackground(Color.white);
+
+        String[] columNames = {"ID", "Tên bàn", "Trạng thái", "Ngày tạo", "Ngày cập nhật"};
+        Object[][] data = {};
+        this.modelTable = new DefaultTableModel(data, columNames);
+        this.table = new JTable(modelTable);
+        this.table.getColumnModel().getColumn(0).setPreferredWidth(100);
+        this.table.getColumnModel().getColumn(1).setPreferredWidth(150);
+        this.table.getColumnModel().getColumn(2).setPreferredWidth(150);
+        this.table.getColumnModel().getColumn(3).setPreferredWidth(150);
+        this.table.getColumnModel().getColumn(4).setPreferredWidth(150);
         
+//        Hiển thị kích thước bảng
+        this.scrollPane = new JScrollPane(table);
+        this.scrollPane.setBounds(0, 80, 1100, 380);
+
         this.btnCreate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -75,6 +91,7 @@ public class ManagerTable extends JPanel {
         this.add(this.txtSearch);
         this.add(this.btnCreate);
 //        add button phân trang
+        this.add(scrollPane);
         this.add(this.btnFirst);
         this.add(this.btnPrevious);
         this.add(this.btnPage);
